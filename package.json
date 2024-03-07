@@ -1,0 +1,17 @@
+{
+  "name": "auto_mf_actions",
+  "version": "1.0.0",
+  "main": "mf.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@slack/webhook": "^7.0.2",
+    "dotenv": "^16.4.5",
+    "googleapis": "^133.0.0",
+    "lodash": "^4.17.21",
+    "promise-timers": "^1.0.1",
+    "puppeteer": "^22.4.0",
+    "timers-promises": "^1.0.1"
+  }
+}
