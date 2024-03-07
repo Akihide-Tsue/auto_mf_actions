@@ -1,0 +1,14 @@
+name: Record MF
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assignAuthor:
+    name: Assign author to PR
+    runs-on: ubuntu-latest
+    # [bot]を含む場合は除外
+    if: ${{ !contains(github.actor, '[bot]') }}
+    steps:
+      - name: Assign author to PR
+        uses: technote-space/assign-author@v1
