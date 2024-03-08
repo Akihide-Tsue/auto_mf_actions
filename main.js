@@ -7,10 +7,10 @@ const { setTimeout } = require("timers/promises");
 
 (async () => {
   // 環境変数から認証情報を取得
-  const clientId = process.env['GOOGLE_OAUTH_CLIENT_ID']
-  const clientSecret = process.env['GOOGLE_OAUTH_CLIENT_SECRET']
-  const refreshToken = process.env['GOOGLE_OAUTH_REFRESH_TOKEN']
-  const calendarId = process.env['CALENDAR_ID']
+  const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
+  const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET
+  const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN
+  const calendarId = process.env.CALENDAR_ID
 
   // 認証処理
   const getGoogleOAuth = async () => {
@@ -88,12 +88,12 @@ const { setTimeout } = require("timers/promises");
       await page.click('a[class="attendance-button-mfid attendance-button-link attendance-button-size-wide"]')
       console.log('ページ遷移')
       await setTimeout(8000)
-      await page.type('input[name="mfid_user[email]"]', process.env['MF_ID'])
+      await page.type('input[name="mfid_user[email]"]', process.env.MF_ID)
       await setTimeout(2000)
       await page.click('button[id="submitto"]')
       await setTimeout(2000)
       console.log('パスワード画面')
-      await page.type('input[name="mfid_user[password]"]', process.env['MF_PASSWORD'])
+      await page.type('input[name="mfid_user[password]"]', process.env.MF_PASSWORD)
       await setTimeout(8000)
       await page.click('button[id="submitto"]')
       console.log('ログイン完了')
@@ -161,7 +161,7 @@ const { setTimeout } = require("timers/promises");
   } catch (error) {
     console.log('The API returned an error: ' + error)
     //Slack通知
-    const webhook = new IncomingWebhook(process.env['SLACK_HOOK_URL'])
+    const webhook = new IncomingWebhook(process.env.SLACK_HOOK_URL)
     webhook.send({
       text: "<!channel>\n打刻失敗：\n" + error,
       username: "MF勤怠", //通知のユーザー名

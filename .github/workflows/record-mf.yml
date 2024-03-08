@@ -39,3 +39,12 @@ jobs:
       - name: main action...
         run: >
           node main.js
+        # 環境変数に情報を保存
+        env:
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}
+          GOOGLE_OAUTH_REFRESH_TOKEN: ${{ secrets.GOOGLE_OAUTH_REFRESH_TOKEN }}
+          CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+          MF_ID: ${{ secrets.MF_ID }}
+          MF_PASSWORD: ${{ secrets.MF_PASSWORD }}
+          SLACK_HOOK_URL: ${{ secrets.SLACK_HOOK_URL }}
