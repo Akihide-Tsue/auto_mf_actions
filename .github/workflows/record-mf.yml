@@ -23,6 +23,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
+      # 60days inactiveだとアクションが止まるので、それを防ぐ
+      - uses: entepotenz/keep-github-actions-alive-min-dependencies@v1
+
       # キャッシュ
       - name: Cache dependencies
         uses: actions/cache@v4

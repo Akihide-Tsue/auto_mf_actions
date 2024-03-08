@@ -13,10 +13,5 @@ https://www.yukendev.com/blogs/tips-googleapi-calendar
 
 https://zenn.dev/tsue/articles/121b2d22108554
 
-### 注意
-GitHub Actions は60日間リポジトリに活動が無いと自動停止する  
-https://zenn.dev/hellorusk/articles/fc6d4696f5b269
-
 ### 手順
-https://github.com/Akihide-Tsue/auto_mf_actions/settings/secrets/actionsの
-Repository secretsを保存すること。内容は.envをコピー
+Repository secretsに環境変数を保存すること。内容は.envと同一。
