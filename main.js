@@ -113,8 +113,8 @@ const { setTimeout } = require("timers/promises");
       console.log("事業者選択OK", currentHour)
       await setTimeout(8000)
 
-      // 18時以降（退勤）
-      if (currentHour > 18) {
+      // 18時以降（退勤） 19時はcurrentHour===10
+      if (currentHour > 8) {
         await page.evaluate(() => {
           const buttonXPath = '//button[contains(text(), "退勤")]'
           const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
