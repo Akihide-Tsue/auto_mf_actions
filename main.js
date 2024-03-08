@@ -1,9 +1,9 @@
-'use strict'
-require('dotenv').config()
-const { google } = require('googleapis')
-const { IncomingWebhook } = require("@slack/webhook")
-const puppeteer = require('puppeteer')
-const { setTimeout } = require("timers/promises")
+'use strict';
+require('dotenv').config();
+const { google } = require('googleapis');
+const { IncomingWebhook } = require("@slack/webhook");
+const puppeteer = require('puppeteer');
+const { setTimeout } = require("timers/promises");
 
 (async () => {
   // 環境変数から認証情報を取得
