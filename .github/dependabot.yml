@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    groups:
+      dependencies:
+        dependency-type: "production"
+      devDependencies:
+        dependency-type: "development"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+
+# 除外対応
+
+# プルリクエストコメントに下記のコマンドを打つと、アップデート対象から一時的に除外できます。
+# @dependabot ignore <パッケージ名>
+
+# アップデートできるようになったら下記で解除します
+# @dependabot unignore <パッケージ名>
+
+# 脆弱性診断コマンド
+# yarn audit --groups dependencies
