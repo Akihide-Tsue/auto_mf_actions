@@ -1,14 +1,41 @@
-name: Record MF
+name: Auto record
+
 on:
-  pull_request:
-    types: [opened]
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: "40 0 * * *" # 日本時間9:40に実行
+    - cron: "20 10 * * *" # 日本時間19:20に実行
 
 jobs:
-  assignAuthor:
-    name: Assign author to PR
+  build:
     runs-on: ubuntu-latest
-    # [bot]を含む場合は除外
-    if: ${{ !contains(github.actor, '[bot]') }}
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-      - name: Assign author to PR
-        uses: technote-space/assign-author@v1
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      # キャッシュ
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      # インストール
+      - name: npm install command
+        run: npm install
+
+      # 実際のコマンド
+      - name: main action...
+        run: >
+          node main.js

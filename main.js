@@ -60,7 +60,7 @@ const { setTimeout } = require("timers/promises");
         timeZone: 'Asia/Tokyo',
       });
 
-      const isHoliday = res.data.items.filter(item => ['有給', '休', '祝日'].some(keyword => item.summary.includes(keyword))).length > 0
+      const isHoliday = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword))).length > 0
 
       if (!res.data.items) throw new Error('正常にイベントを取得できませんでした');
 
@@ -77,7 +77,7 @@ const { setTimeout } = require("timers/promises");
 
     try {
       browser = await puppeteer.launch({
-        headless: false, //ブラウザ起動
+        // headless: false, //ブラウザ起動（デプロイ時はコメントアウト）
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process']
       });
       const page = await browser.newPage();

@@ -1,4 +1,5 @@
 ## MF 勤怠自動打刻
+前回のHerokuでのcron実行（有償）からGithub Actionsでの実行に改善しました。
 
 ### コマンド
 
@@ -8,6 +9,6 @@ node main.js
 
 https://www.yukendev.com/blogs/tips-googleapi-calendar
 
-### Zenn の記事
+### 前作のZenn の記事
 
 https://zenn.dev/tsue/articles/121b2d22108554
