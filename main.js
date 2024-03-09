@@ -20,8 +20,6 @@ const { setTimeout } = require("timers/promises");
       'http://localhost',
     )
 
-    console.log("googleOAuth", googleOAuth)
-
     // 毎回のリクエスト時に新しいアクセストークンを取得
     googleOAuth.setCredentials({
       refresh_token: refreshToken,
@@ -29,8 +27,6 @@ const { setTimeout } = require("timers/promises");
 
     try {
       const accessTokenResponse = await googleOAuth.getAccessToken()
-      console.log("accessTokenResponse", accessTokenResponse)
-
       const accessToken = accessTokenResponse.token
 
       if (!accessToken)
@@ -54,16 +50,15 @@ const { setTimeout } = require("timers/promises");
   ) => {
     try {
       const googleOAuth = await getGoogleOAuth()
-      console.log("googleOAuth---", googleOAuth)
       const calendar = google.calendar({ version: 'v3', auth: googleOAuth })
-      console.log("calendar---", calendar)
+      console.log("calendar---", calendar.events)
       const res = await calendar.events.list({
         calendarId,
         timeMin,
         timeMax,
         timeZone: 'Asia/Tokyo',
       })
-      console.log("res---", res)
+      console.log("res---", res.data.items)
 
       const isHoliday = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword))).length > 0
 
@@ -74,6 +69,7 @@ const { setTimeout } = require("timers/promises");
 
     } catch (err) {
       console.log('カレンダーからイベント取得時にエラーが発生しました', err)
+      console.log("err中身", err.response.data.error)
     }
   }
 
@@ -119,23 +115,23 @@ const { setTimeout } = require("timers/promises");
       await setTimeout(8000)
 
       // 18時以降（退勤） 19時はcurrentHour===10
-      if (currentHour > 8) {
-        await page.evaluate(() => {
-          const buttonXPath = '//button[contains(text(), "退勤")]'
-          const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
-          if (button) {
-            button.click()
-          } else throw new Error('退勤ボタンが見つかりませんでした')
-        })
-      } else {
-        await page.evaluate(() => {
-          const buttonXPath = '//button[contains(text(), "出勤")]'
-          const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
-          if (button) {
-            button.click()
-          } else throw new Error('出勤ボタンが見つかりませんでした')
-        })
-      }
+      // if (currentHour > 8) {
+      //   await page.evaluate(() => {
+      //     const buttonXPath = '//button[contains(text(), "退勤")]'
+      //     const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+      //     if (button) {
+      //       button.click()
+      //     } else throw new Error('退勤ボタンが見つかりませんでした')
+      //   })
+      // } else {
+      //   await page.evaluate(() => {
+      //     const buttonXPath = '//button[contains(text(), "出勤")]'
+      //     const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+      //     if (button) {
+      //       button.click()
+      //     } else throw new Error('出勤ボタンが見つかりませんでした')
+      //   })
+      // }
 
       const date = new Date().getMonth() + '月' + new Date().getDate() + '日' + new Date().getHours() + '時 '
       console.log(date, '打刻完了')
