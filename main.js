@@ -51,7 +51,15 @@ const { setTimeout } = require("timers/promises");
     try {
       const googleOAuth = await getGoogleOAuth()
       const calendar = google.calendar({ version: 'v3', auth: googleOAuth })
-      console.log("calendar---", calendar.events)
+      // console.log("calendar---", calendar.events)
+
+      console.log("awaitの中", await calendar.events.list({
+        calendarId,
+        timeMin,
+        timeMax,
+        timeZone: 'Asia/Tokyo',
+      }))
+
       const res = await calendar.events.list({
         calendarId,
         timeMin,
