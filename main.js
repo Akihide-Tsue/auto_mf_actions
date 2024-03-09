@@ -54,7 +54,7 @@ const { setTimeout } = require("timers/promises");
       // console.log("calendar---", calendar.events)
 
       console.log("awaitの中", await calendar.events.list({
-        calendarId,
+        calendarId: 'primary',
         timeMin,
         timeMax,
         timeZone: 'Asia/Tokyo',
