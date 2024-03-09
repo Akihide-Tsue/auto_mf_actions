@@ -20,6 +20,8 @@ const { setTimeout } = require("timers/promises");
       'http://localhost',
     )
 
+    console.log("googleOAuth", googleOAuth)
+
     // 毎回のリクエスト時に新しいアクセストークンを取得
     googleOAuth.setCredentials({
       refresh_token: refreshToken,
@@ -27,6 +29,7 @@ const { setTimeout } = require("timers/promises");
 
     try {
       const accessTokenResponse = await googleOAuth.getAccessToken()
+      console.log("accessTokenResponse", accessTokenResponse)
 
       const accessToken = accessTokenResponse.token
 
@@ -51,14 +54,16 @@ const { setTimeout } = require("timers/promises");
   ) => {
     try {
       const googleOAuth = await getGoogleOAuth()
+      console.log("googleOAuth---", googleOAuth)
       const calendar = google.calendar({ version: 'v3', auth: googleOAuth })
-
+      console.log("calendar---", calendar)
       const res = await calendar.events.list({
         calendarId,
         timeMin,
         timeMax,
         timeZone: 'Asia/Tokyo',
       })
+      console.log("res---", res)
 
       const isHoliday = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword))).length > 0
 
