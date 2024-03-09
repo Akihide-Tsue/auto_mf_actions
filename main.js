@@ -10,7 +10,6 @@ const { setTimeout } = require("timers/promises");
   const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
   const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET
   const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN
-  const calendarId = process.env.CALENDAR_ID
 
   // 認証処理
   const getGoogleOAuth = async () => {
@@ -51,14 +50,6 @@ const { setTimeout } = require("timers/promises");
     try {
       const googleOAuth = await getGoogleOAuth()
       const calendar = google.calendar({ version: 'v3', auth: googleOAuth })
-      // console.log("calendar---", calendar.events)
-
-      console.log("awaitの中", await calendar.events.list({
-        calendarId: 'primary',
-        timeMin,
-        timeMax,
-        timeZone: 'Asia/Tokyo',
-      }))
 
       const res = await calendar.events.list({
         calendarId: 'primary',
@@ -66,7 +57,6 @@ const { setTimeout } = require("timers/promises");
         timeMax,
         timeZone: 'Asia/Tokyo',
       })
-      console.log("res---", res.data.items)
 
       const isHoliday = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword))).length > 0
 
@@ -77,7 +67,6 @@ const { setTimeout } = require("timers/promises");
 
     } catch (err) {
       console.log('カレンダーからイベント取得時にエラーが発生しました', err)
-      console.log("err中身", err.response.data.error)
     }
   }
 
@@ -96,6 +85,9 @@ const { setTimeout } = require("timers/promises");
 
       await page.click('a[class="attendance-button-mfid attendance-button-link attendance-button-size-wide"]')
       console.log('ページ遷移')
+
+      // TODO toBeVisible()に変更
+
       await setTimeout(8000)
       await page.type('input[name="mfid_user[email]"]', process.env.MF_ID)
       await setTimeout(2000)
@@ -123,23 +115,23 @@ const { setTimeout } = require("timers/promises");
       await setTimeout(8000)
 
       // 18時以降（退勤） 19時はcurrentHour===10
-      // if (currentHour > 8) {
-      //   await page.evaluate(() => {
-      //     const buttonXPath = '//button[contains(text(), "退勤")]'
-      //     const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
-      //     if (button) {
-      //       button.click()
-      //     } else throw new Error('退勤ボタンが見つかりませんでした')
-      //   })
-      // } else {
-      //   await page.evaluate(() => {
-      //     const buttonXPath = '//button[contains(text(), "出勤")]'
-      //     const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
-      //     if (button) {
-      //       button.click()
-      //     } else throw new Error('出勤ボタンが見つかりませんでした')
-      //   })
-      // }
+      if (currentHour > 8) {
+        await page.evaluate(() => {
+          const buttonXPath = '//button[contains(text(), "退勤")]'
+          const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+          if (button) {
+            button.click()
+          } else throw new Error('退勤ボタンが見つかりませんでした')
+        })
+      } else {
+        await page.evaluate(() => {
+          const buttonXPath = '//button[contains(text(), "出勤")]'
+          const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+          if (button) {
+            button.click()
+          } else throw new Error('出勤ボタンが見つかりませんでした')
+        })
+      }
 
       const date = new Date().getMonth() + '月' + new Date().getDate() + '日' + new Date().getHours() + '時 '
       console.log(date, '打刻完了')
