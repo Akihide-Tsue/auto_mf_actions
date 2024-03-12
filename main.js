@@ -58,6 +58,8 @@ const { setTimeout } = require("timers/promises");
         timeZone: 'Asia/Tokyo',
       })
 
+      console.log("res.data.items", res.data.items)
+
       const isHoliday = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword))).length > 0
 
       if (!res.data.items) throw new Error('正常にイベントを取得できませんでした')
