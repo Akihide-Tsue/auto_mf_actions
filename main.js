@@ -60,11 +60,11 @@ const { setTimeout } = require("timers/promises");
 
       console.log("res.data.items", res.data.items)
 
-      const isHoliday = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword))).length > 0
+      const holidaySchedule = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword)))
 
-      if (!res.data.items) throw new Error('正常にイベントを取得できませんでした')
+      console.log("holidaySchedule", holidaySchedule.length > 0, holidaySchedule)
 
-      if (isHoliday) return true
+      if (holidaySchedule.length > 0) return true
       else return false
 
     } catch (err) {
@@ -156,7 +156,7 @@ const { setTimeout } = require("timers/promises");
     const isHoliday = await getEventListFromGoogleCalendar(startOfDay, endOfDay)
 
     if (isHoliday) {
-      console.log('isHoliday')
+      return
     } else {
       await mfPuppeteer(currentHour)
     }
