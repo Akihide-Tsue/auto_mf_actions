@@ -90,17 +90,17 @@ const { setTimeout } = require("timers/promises");
 
       // TODO toBeVisible()に変更
 
-      await setTimeout(8000)
+      await setTimeout(10000)
       await page.type('input[name="mfid_user[email]"]', process.env.MF_ID)
       await setTimeout(2000)
       await page.click('button[id="submitto"]')
       await setTimeout(2000)
       console.log('パスワード画面')
       await page.type('input[name="mfid_user[password]"]', process.env.MF_PASSWORD)
-      await setTimeout(8000)
+      await setTimeout(10000)
       await page.click('button[id="submitto"]')
       console.log('ログイン完了')
-      await setTimeout(8000)
+      await setTimeout(10000)
 
       await page.evaluate(() => {
         // 2番目の"選択"ボタンをXPathで検索します
@@ -114,7 +114,7 @@ const { setTimeout } = require("timers/promises");
       })
 
       console.log("事業者選択OK", currentHour)
-      await setTimeout(8000)
+      await setTimeout(10000)
 
       // 18時以降（退勤） 19時はcurrentHour===10
       if (currentHour > 8) {
