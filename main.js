@@ -148,11 +148,15 @@ const { setTimeout } = require("timers/promises");
 
   try {
     const currentHour = new Date().getHours()
-    console.log('-----開始-----', currentHour)
+    console.log('-----開始-----', currentHour,)
+    console.log("new Date()", new Date())
 
-    const today = new Date()
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0)).toISOString()
-    const endOfDay = new Date(today.setHours(23, 59, 59, 999)).toISOString()
+    const now = new Date()
+    const startOfDay = new Date(now.setHours(0, 0, 0, 0)).toISOString()
+    const endOfDay = new Date(now.setHours(23, 59, 59, 999)).toISOString()
+    console.log("startOfDay", startOfDay,)
+    console.log("endOfDay", endOfDay)
+
     const isHoliday = await getEventListFromGoogleCalendar(startOfDay, endOfDay)
 
     if (isHoliday) {
