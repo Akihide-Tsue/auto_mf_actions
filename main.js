@@ -153,7 +153,7 @@ const { setTimeout } = require("timers/promises");
 
     const now = new Date()
     const startOfDay = new Date(now.setUTCHours(0, 0, 0, 0)).toISOString();
-    const endOfDay = new Date(now.setUTCHours.setHours(23, 59, 59, 999)).toISOString()
+    const endOfDay = new Date(now.setUTCHours(23, 59, 59, 999)).toISOString()
     console.log("startOfDay", startOfDay,)
     console.log("endOfDay", endOfDay)
 
