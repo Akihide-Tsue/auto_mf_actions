@@ -113,7 +113,7 @@ const { setTimeout } = require("timers/promises");
         }
       })
 
-      console.log("事業者選択OK", currentHour)
+      console.log("事業者選択OK")
       await setTimeout(10000)
 
       // 18時以降（退勤） 19時はcurrentHour===10
@@ -148,10 +148,13 @@ const { setTimeout } = require("timers/promises");
 
   try {
     const currentHour = new Date().getHours()
-    console.log('-----開始-----', currentHour,)
+    console.log('-----開始-----',)
     console.log("new Date()", new Date())
 
     const now = new Date()
+    now.setHours(now.getHours() - 9); // 9時間引く
+    console.log("now-----", now)
+
     const startOfDay = new Date(now.setUTCHours(0, 0, 0, 0)).toISOString();
     const endOfDay = new Date(now.setUTCHours(23, 59, 59, 999)).toISOString()
     console.log("startOfDay", startOfDay,)
