@@ -152,7 +152,7 @@ const { setTimeout } = require("timers/promises");
     console.log("new Date()", new Date())
 
     const now = new Date()
-    now.setHours(now.getHours() - 9); // 9時間引く
+    now.setHours(now.getHours() + 9); // 9時間足す
     console.log("now-----", now)
 
     const startOfDay = new Date(now.setUTCHours(0, 0, 0, 0)).toISOString();
