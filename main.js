@@ -62,7 +62,7 @@ const { setTimeout } = require("timers/promises");
 
       const holidaySchedule = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword)))
 
-      console.log("holidaySchedule", holidaySchedule.length > 0, holidaySchedule)
+      console.log("打刻なしあり", holidaySchedule.length > 0)
 
       if (holidaySchedule.length > 0) return true
       else return false
