@@ -1,76 +1,76 @@
 'use strict';
 require('dotenv').config();
-const { google } = require('googleapis');
+// const { google } = require('googleapis');
 const { IncomingWebhook } = require("@slack/webhook");
 const puppeteer = require('puppeteer');
 const { setTimeout } = require("timers/promises");
 
 (async () => {
   // 環境変数から認証情報を取得
-  const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
-  const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET
-  const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN
+  // const clientId = process.env.GOOGLE_OAUTH_CLIENT_ID
+  // const clientSecret = process.env.GOOGLE_OAUTH_CLIENT_SECRET
+  // const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN
 
   // 認証処理
-  const getGoogleOAuth = async () => {
-    const googleOAuth = new google.auth.OAuth2(
-      clientId,
-      clientSecret,
-      'http://localhost',
-    )
+  // const getGoogleOAuth = async () => {
+  //   const googleOAuth = new google.auth.OAuth2(
+  //     clientId,
+  //     clientSecret,
+  //     'http://localhost',
+  //   )
 
-    // 毎回のリクエスト時に新しいアクセストークンを取得
-    googleOAuth.setCredentials({
-      refresh_token: refreshToken,
-    })
+  //   // 毎回のリクエスト時に新しいアクセストークンを取得
+  //   googleOAuth.setCredentials({
+  //     refresh_token: refreshToken,
+  //   })
 
-    try {
-      const accessTokenResponse = await googleOAuth.getAccessToken()
-      const accessToken = accessTokenResponse.token
+  //   try {
+  //     const accessTokenResponse = await googleOAuth.getAccessToken()
+  //     const accessToken = accessTokenResponse.token
 
-      if (!accessToken)
-        throw new Error('有効なアクセストークンを取得できませんでした')
+  //     if (!accessToken)
+  //       throw new Error('有効なアクセストークンを取得できませんでした')
 
-      googleOAuth.setCredentials({
-        access_token: accessToken,
-      })
+  //     googleOAuth.setCredentials({
+  //       access_token: accessToken,
+  //     })
 
-      return googleOAuth
-    } catch (err) {
-      console.log('エラーの中身', err)
-      throw new Error('アクセストークン取得時にエラーが発生しました')
-    }
-  }
+  //     return googleOAuth
+  //   } catch (err) {
+  //     console.log('エラーの中身', err)
+  //     throw new Error('アクセストークン取得時にエラーが発生しました')
+  //   }
+  // }
 
   // カレンダーからイベントを取得
-  const getEventListFromGoogleCalendar = async (
-    timeMin,
-    timeMax,
-  ) => {
-    try {
-      const googleOAuth = await getGoogleOAuth()
-      const calendar = google.calendar({ version: 'v3', auth: googleOAuth })
+  // const getEventListFromGoogleCalendar = async (
+  //   timeMin,
+  //   timeMax,
+  // ) => {
+  //   try {
+  //     const googleOAuth = await getGoogleOAuth()
+  //     const calendar = google.calendar({ version: 'v3', auth: googleOAuth })
 
-      const res = await calendar.events.list({
-        calendarId: 'primary',
-        timeMin,
-        timeMax,
-        timeZone: 'Asia/Tokyo',
-      })
+  //     const res = await calendar.events.list({
+  //       calendarId: 'primary',
+  //       timeMin,
+  //       timeMax,
+  //       timeZone: 'Asia/Tokyo',
+  //     })
 
-      console.log("res.data.items", res.data.items)
+  //     console.log("res.data.items", res.data.items)
 
-      const holidaySchedule = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword)))
+  //     const holidaySchedule = res.data.items.filter(item => ['打刻なし'].some(keyword => item.summary.includes(keyword)))
 
-      console.log("打刻なしあり", holidaySchedule.length > 0)
+  //     console.log("打刻なしあり", holidaySchedule.length > 0)
 
-      if (holidaySchedule.length > 0) return true
-      else return false
+  //     if (holidaySchedule.length > 0) return true
+  //     else return false
 
-    } catch (err) {
-      console.log('カレンダーからイベント取得時にエラーが発生しました', err)
-    }
-  }
+  //   } catch (err) {
+  //     console.log('カレンダーからイベント取得時にエラーが発生しました', err)
+  //   }
+  // }
 
   const mfPuppeteer = async (currentHour) => {
     let browser // browser変数を定義
@@ -153,20 +153,20 @@ const { setTimeout } = require("timers/promises");
 
     const now = new Date()
     now.setHours(now.getHours() + 9); // 9時間足す
-    console.log("now-----", now)
+    console.log("日本時刻", now)
 
-    const startOfDay = new Date(now.setHours(0, 0, 0, 0)).toISOString();
-    const endOfDay = new Date(now.setHours(23, 59, 59, 999)).toISOString()
-    console.log("startOfDay", startOfDay,)
-    console.log("endOfDay", endOfDay)
+    // const startOfDay = new Date(now.setHours(0, 0, 0, 0)).toISOString();
+    // const endOfDay = new Date(now.setHours(23, 59, 59, 999)).toISOString()
+    // console.log("startOfDay", startOfDay,)
+    // console.log("endOfDay", endOfDay)
 
-    const isHoliday = await getEventListFromGoogleCalendar(startOfDay, endOfDay)
+    // const isHoliday = await getEventListFromGoogleCalendar(startOfDay, endOfDay)
 
-    if (isHoliday) {
-      return
-    } else {
-      await mfPuppeteer(currentHour)
-    }
+    // if (isHoliday) {
+    //   return
+    // } else {
+    // }
+    await mfPuppeteer(currentHour)
 
   } catch (error) {
     console.log('The API returned an error: ' + error)

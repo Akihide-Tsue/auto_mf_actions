@@ -2,8 +2,8 @@ name: Auto record
 
 on:
   schedule:
-    - cron: "35 0 * * *" # 日本時間9:35に実行
-    - cron: "20 10 * * *" # 日本時間19:20に実行
+    - cron: "25 0 * * *" # 日本時間9:35に実行
+    - cron: "05 10 * * *" # 日本時間19:20に実行
 
 jobs:
   build:
@@ -15,14 +15,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      # 60days inactiveだとアクションが止まるので、それを防ぐ
+      - uses: entepotenz/keep-github-actions-alive-min-dependencies@v1
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      # 60days inactiveだとアクションが止まるので、それを防ぐ
-      - uses: entepotenz/keep-github-actions-alive-min-dependencies@v1
+      # 祝日スキップ：https://qiita.com/ham0215/items/50e3380da847b8983b63
+      - run: npm install @holiday-jp/holiday_jp
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const holidayJp = require('@holiday-jp/holiday_jp');
+            const today = new Date();
+            console.log(today);
+            if (holidayJp.isHoliday(today)) {
+              throw new Error('祝日はSKIP');
+            }
 
       # キャッシュ
       - name: Cache dependencies
