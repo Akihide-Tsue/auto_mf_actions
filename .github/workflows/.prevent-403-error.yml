@@ -1,0 +1,30 @@
+# 50日間コミットしないと403エラーが発生するため、空コミットを自動で行う
+name: Prevent 403 Error by Regular Commit
+
+on:
+  schedule:
+    - cron: "0 0 * * 0" # 毎週日曜日に実行
+  push:
+    branches:
+      - main
+
+jobs:
+  keep-alive-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create an empty commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: keep repository active"
+
+      - name: Push changes
+        env:
+          PAT: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          git remote set-url origin https://x-access-token:${PAT}@github.com/${{ github.repository }}
+          git push origin main
