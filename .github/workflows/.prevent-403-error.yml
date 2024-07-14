@@ -1,5 +1,4 @@
-# 50日間コミットしないと403エラーが発生するため、空コミットを自動で行う
-name: Prevent 403 Error by Regular Commit
+name: Keep GitHub Actions Alive
 
 on:
   schedule:
@@ -12,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
 
       - name: Create an empty commit
         run: |
@@ -21,7 +22,6 @@ jobs:
 
       - name: Push changes
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/Akihide-Tsue/auto_mf_actions
           git push origin main
         env:
           PAT: ${{ secrets.PAT }}
