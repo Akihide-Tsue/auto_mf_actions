@@ -21,7 +21,7 @@ jobs:
 
       - name: Push changes
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/Akihide-Tsue/auto_mf_actions
+          git remote set-url origin https://x-access-token:${{ secrets.PAT }}@github.com/Akihide-Tsue/auto_mf_actions
           git push origin main
         env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          PAT: ${{ secrets.PAT }}
