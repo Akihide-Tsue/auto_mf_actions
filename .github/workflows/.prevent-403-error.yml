@@ -1,3 +1,4 @@
+# 50日間コミットしないと403エラーが発生するため、空コミットを自動で行う
 name: Keep GitHub Actions Alive
 
 on:
