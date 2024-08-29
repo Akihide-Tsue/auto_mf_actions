@@ -46,7 +46,7 @@ const { setTimeout } = require("timers/promises");
       console.log('ログイン完了')
       await setTimeout(10000)
 
-      await page.evaluate(() => {
+      await page.evaluate(async () => {
         // 2番目の"選択"ボタンをXPathで検索します
         const buttonXPath = '(//a[contains(text(), "選択")])[2]'
         const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
@@ -54,6 +54,7 @@ const { setTimeout } = require("timers/promises");
         if (button) {
           // ボタンまでスクロール
           button.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          await setTimeout(1000)
 
           button.click()
         } else {
