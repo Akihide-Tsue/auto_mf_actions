@@ -78,8 +78,17 @@ const { setTimeout } = require("timers/promises");
     try {
       browser = await puppeteer.launch({
         // headless: false, //ブラウザ起動（デプロイ時はコメントアウト）
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--single-process']
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--single-process',
+          '--window-size=1920,1080'
+        ]
       })
+
+      await setTimeout(2000)
+
       const page = await browser.newPage()
       await page.setUserAgent('Mozilla/5.0 (Macintosh Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36')
       await page.goto('https://attendance.moneyforward.com/employee_session/new', { waitUntil: ['load', 'networkidle2'] })
@@ -106,7 +115,11 @@ const { setTimeout } = require("timers/promises");
         // 2番目の"選択"ボタンをXPathで検索します
         const buttonXPath = '(//a[contains(text(), "選択")])[2]'
         const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+
         if (button) {
+          // ボタンまでスクロール
+          button.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
           button.click()
         } else {
           throw new Error('2番目の"選択"ボタンが見つかりませんでした')
