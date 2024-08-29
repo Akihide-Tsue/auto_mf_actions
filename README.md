@@ -9,9 +9,5 @@ node main.js
 
 https://www.yukendev.com/blogs/tips-googleapi-calendar
 
-### 前作のZenn の記事
-
-https://zenn.dev/tsue/articles/121b2d22108554
-
 ### 手順
 Repository secretsに環境変数を保存すること。内容は.envと同一。
