@@ -9,11 +9,15 @@ const { setTimeout } = require("timers/promises");
 
 
   const mfPuppeteer = async (currentHour) => {
+    const isProd = true
+    // const isProd = false
+    const delayTime = isProd ? 10000 : 3000
+
     let browser // browser変数を定義
 
     try {
       browser = await puppeteer.launch({
-        // headless: false, //ブラウザ起動（デプロイ時はコメントアウト）
+        headless: isProd, //ブラウザ起動（本番ではtrue）
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -34,17 +38,17 @@ const { setTimeout } = require("timers/promises");
 
       // TODO toBeVisible()に変更
 
-      await setTimeout(10000)
+      await setTimeout(delayTime)
       await page.type('input[name="mfid_user[email]"]', process.env.MF_ID)
       await setTimeout(2000)
       await page.click('button[id="submitto"]')
       await setTimeout(2000)
       console.log('パスワード画面')
       await page.type('input[name="mfid_user[password]"]', process.env.MF_PASSWORD)
-      await setTimeout(10000)
+      await setTimeout(delayTime)
       await page.click('button[id="submitto"]')
       console.log('ログイン完了')
-      await setTimeout(10000)
+      await setTimeout(delayTime)
 
       await page.evaluate(async () => {
         // 2番目の"選択"ボタンをXPathで検索します
@@ -58,12 +62,13 @@ const { setTimeout } = require("timers/promises");
 
           button.click()
         } else {
+          await page.screenshot({ path: 'error_screenshot.png' });
           throw new Error('2番目の"選択"ボタンが見つかりませんでした')
         }
       })
 
       console.log("事業者選択OK")
-      await setTimeout(10000)
+      await setTimeout(delayTime)
 
       // 18時以降（退勤） 19時はcurrentHour===10
       if (currentHour > 8) {
@@ -86,7 +91,7 @@ const { setTimeout } = require("timers/promises");
 
       const date = new Date().getMonth() + '月' + new Date().getDate() + '日' + new Date().getHours() + '時 '
       console.log(date, '打刻完了')
-      await setTimeout(10000)
+      await setTimeout(delayTime)
       await browser.close()
     } catch (error) {
       await browser.close()
