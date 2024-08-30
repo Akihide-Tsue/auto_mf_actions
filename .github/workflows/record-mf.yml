@@ -49,8 +49,8 @@ jobs:
 
       # 実際のコマンド
       - name: main action...
-        run: >
-          node main.js
+        run: |
+          node main.js || echo "Script failed, capturing screenshot" && node capture_screenshot.js
         # 環境変数にsecretsを保存
         env:
           GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
@@ -59,3 +59,11 @@ jobs:
           MF_ID: ${{ secrets.MF_ID }}
           MF_PASSWORD: ${{ secrets.MF_PASSWORD }}
           SLACK_HOOK_URL: ${{ secrets.SLACK_HOOK_URL }}
+
+      # エラー時のスクリーンショットのアップロード
+      - name: Upload screenshot on failure
+        if: failure() # 失敗時のみ実行
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: error_screenshot.png
