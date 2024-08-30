@@ -30,7 +30,7 @@ const { setTimeout } = require("timers/promises");
       await setTimeout(2000)
 
       const page = await browser.newPage()
-      await page.setUserAgent('Mozilla/5.0 (Macintosh Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36')
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Apple Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.96 Safari/537.36');
       await page.goto('https://attendance.moneyforward.com/employee_session/new', { waitUntil: ['load', 'networkidle2'] })
 
       await page.click('a[class="attendance-button-mfid attendance-button-link attendance-button-size-wide"]')
