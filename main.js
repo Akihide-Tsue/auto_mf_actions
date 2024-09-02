@@ -51,13 +51,16 @@ const { setTimeout } = require("timers/promises");
       await setTimeout(delayTime)
 
       await page.evaluate(async () => {
+        window.scrollTo({
+          left: document.body.scrollWidth, // ページの最大スクロール幅
+          behavior: 'smooth'
+        });
+
         // 2番目の"選択"ボタンをXPathで検索します
         const buttonXPath = '(//a[contains(text(), "選択")])[2]'
         const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
 
         if (button) {
-          // ボタンまでスクロール
-          button.scrollIntoView({ behavior: 'smooth', block: 'center' });
           await setTimeout(1000)
 
           button.click()
