@@ -59,13 +59,13 @@ const { setTimeout } = require("timers/promises");
         // 2番目の"選択"ボタンをXPathで検索します
         const buttonXPath = '(//a[contains(text(), "選択")])[2]'
         const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+        await page.screenshot({ path: 'error_screenshot.png' });
 
         if (button) {
           await setTimeout(1000)
 
           button.click()
         } else {
-          await page.screenshot({ path: 'error_screenshot.png' });
           throw new Error('2番目の"選択"ボタンが見つかりませんでした')
         }
       })
