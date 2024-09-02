@@ -65,7 +65,7 @@ const { setTimeout } = require("timers/promises");
 
           button.click()
         } else {
-          // await page.screenshot({ path: 'error_screenshot.png' });
+          await page.screenshot({ path: 'error_screenshot.png' });
           throw new Error('2番目の"選択"ボタンが見つかりませんでした')
         }
       })
