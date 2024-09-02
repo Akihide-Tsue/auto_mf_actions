@@ -64,8 +64,8 @@ const { setTimeout } = require("timers/promises");
           }
         })
       } catch (error) {
-        await page.screenshot({ path: 'error_screenshot.png' }) // スクリーンショットを撮る処理をここに移動
-        throw error // エラーを再スローして処理を続行
+        await page.screenshot({ path: 'error_screenshot.png' })
+        throw error
       }
 
       console.log("事業者選択OK")

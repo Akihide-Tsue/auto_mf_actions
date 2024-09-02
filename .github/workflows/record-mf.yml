@@ -64,7 +64,7 @@ jobs:
 
       # エラー時のスクリーンショットのアップロード
       - name: Upload screenshot on failure
-        if: failure() # 失敗時のみ実行
+        # if: failure() # 失敗時のみ実行
         uses: actions/upload-artifact@v2
         with:
           name: screenshots
