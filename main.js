@@ -9,8 +9,8 @@ const { setTimeout } = require("timers/promises");
 
 
   const mfPuppeteer = async (currentHour) => {
-    const isProd = true
-    // const isProd = false
+    // const isProd = true
+    const isProd = false
     const delayTime = isProd ? 10000 : 3000
 
     let browser // browser変数を定義
