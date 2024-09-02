@@ -50,25 +50,23 @@ const { setTimeout } = require("timers/promises");
       console.log('ログイン完了')
       await setTimeout(delayTime)
 
-      await page.evaluate(async () => {
-        window.scrollTo({
-          left: document.body.scrollWidth, // ページの最大スクロール幅
-          behavior: 'smooth'
-        });
+      try {
+        await page.evaluate(async () => {
+          const buttonXPath = '(//a[contains(text(), "選択")])[2]'
+          const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
 
-        // 2番目の"選択"ボタンをXPathで検索します
-        const buttonXPath = '(//a[contains(text(), "選択")])[2]'
-        const button = document.evaluate(buttonXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
-        await page.screenshot({ path: 'error_screenshot.png' });
-
-        if (button) {
-          await setTimeout(1000)
-
-          button.click()
-        } else {
-          throw new Error('2番目の"選択"ボタンが見つかりませんでした')
-        }
-      })
+          if (button) {
+            button.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+            button.click()
+          } else {
+            throw new Error('2番目の"選択"ボタンが見つかりませんでした')
+          }
+        })
+      } catch (error) {
+        await page.screenshot({ path: 'error_screenshot.png' }) // スクリーンショットを撮る処理をここに移動
+        throw error // エラーを再スローして処理を続行
+      }
 
       console.log("事業者選択OK")
       await setTimeout(delayTime)
