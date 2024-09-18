@@ -2,7 +2,7 @@ name: Auto record
 
 on:
   push: # テスト実行時
-    branches: ["main"] # テスト実行時
+    branches: ["main_停止"] # テスト実行時
   # schedule:
   #   - cron: "25 0 * * 1-5" # 日本時間、平日9:25に実行
   #   - cron: "05 10 * * 1-5" # 日本時間、平日19:05に実行
